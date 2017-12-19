@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+
+<body>
+  <canvas id="draw" width="800" height="800"></canvas>
+  <script>
+    const canvas = document.querySelector('#draw');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; // expand canvas to window size
+    canvas.height = window.innerHeight;
+
+    // initial values for drawing
+    ctx.strokeStyle = '#BADA55'; // color
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 1; // lineWidth
+    // ctx.globalCompositeOperation = 'multiply';
+
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    // coloring and lineWidth
+    let hue = 0;
+    let direction = true; // if lineWidth hits bounds, change direction of incrementation
+
+    function draw(event) {
+      if (!isDrawing) return; // stop the fn from running when they are not moused
+      console.log(event);
+
+      // make the line
+      ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY); // start from
+      ctx.lineTo(event.offsetX, event.offsetY); // go to
+      ctx.stroke();
+
+      // save last position
+      [lastX, lastY] = [event.offsetX, event.offsetY];
+
+      // change color as mouse moves
+      hue++;
+      if (hue >= 360) {
+        hue = 0;
+      }
+
+      // change lineWidth as mouse moves
+      // ctx.lineWidth = hue;
+      if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+        direction = !direction;
+      }
+      if (direction) {
+        ctx.lineWidth++;
+      } else {
+        ctx.lineWidth--;
+      }
+      
+    }
+    canvas.addEventListener('mousedown', (event) => {
+      isDrawing = true;
+      [lastX, lastY] = [event.offsetX, event.offsetY]; // save coordinates of mouse pointer when it is clicked
+    });
+
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+  </script>
+
+  <style>
+    html, body {
+      margin:0;
+    }
+  </style>
+
+</body>
+</html>
