@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flex Panels 💪</title>
+  <link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
+</head>
+<body>
+  <style>
+    html {
+      box-sizing: border-box;
+      background:#ffc600;
+      font-family:'helvetica neue';
+      font-size: 20px;
+      font-weight: 200;
+    }
+    body {
+      margin: 0;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+
+    .panels {
+      min-height:100vh;
+      overflow: hidden;
+      
+      /*==============================================================================================*/
+      /*YOUR CODE*/
+      /*==============================================================================================*/
+      display: flex; /*USE flexbox*/
+      /*==============================================================================================*/
+    }
+
+    .panel {
+      background:#6B0F9C;
+      box-shadow:inset 0 0 0 5px rgba(255,255,255,0.1);
+      color:white;
+      text-align: center;
+      align-items:center;
+      /* Safari transitionend event.propertyName === flex */
+      /* Chrome + FF transitionend event.propertyName === flex-grow */
+      transition:
+        font-size 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
+        flex 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
+        background 0.2s;
+      font-size: 20px;
+      background-size:cover;
+      background-position:center;
+      
+      /*==============================================================================================*/
+      /*YOUR CODE*/
+      /*==============================================================================================*/
+      flex: 1; /*distribute each panel EVENLY over the document*/
+      justify-content: center; /*centering horizontally*/
+      align-items: center; /*centering vertically*/
+      display: flex; /*USE flexbox within each panel*/
+      flex-direction: column; /*arrange items vertically*/
+      /*==============================================================================================*/
+    }
+
+
+    .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
+    .panel2 { background-image:url(https://source.unsplash.com/rFKUFzjPYiQ/1500x1500); }
+    .panel3 { background-image:url(https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&w=1500&h=1500&fit=crop&s=967e8a713a4e395260793fc8c802901d); }
+    .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
+    .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
+    
+    /* Flex items */
+    .panel > * {
+      margin:0;
+      width: 100%;
+      transition:transform 0.5s;
+
+      /*==============================================================================================*/
+      /*YOUR CODE*/
+      /*==============================================================================================*/
+      /*border: 1px solid red;*/  /*temporarily highlight each item in each panel*/
+      flex: 1 0 auto; /*distribute each item EVENLY in each panel (vertically)*/
+      display: flex; /*USE flexbox within each item in each panel*/
+      justify-content: center; /*centering horizontally*/
+      align-items: center; /*centering vertically*/
+      /*==============================================================================================*/
+    }
+    
+    /*==============================================================================================*/
+    /*YOUR CODE*/
+    /*==============================================================================================*/
+    .panel > *:first-child {
+      transform: translateY(-100%); /*put top item in each panel off-screen*/
+    }
+
+    .panel.open-active > *:first-child {
+      transform: translateY(0); /*put back on-screen*/
+    }
+
+    .panel > *:last-child {
+      transform: translateY(100%); /*put bottom item in each panel off-screen*/
+    }
+    
+    .panel.open-active > *:last-child {
+      transform: translateY(0); /*put back on-screen*/
+    }
+    /*==============================================================================================*/
+
+    .panel p {
+      text-transform: uppercase;
+      font-family: 'Amatic SC', cursive;
+      text-shadow:0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
+      font-size: 2em;
+    }
+    .panel p:nth-child(2) {
+      font-size: 4em;
+    }
+
+    .panel.open {
+      font-size:40px;
+      /*==============================================================================================*/
+      /*YOUR CODE*/
+      /*==============================================================================================*/
+      flex: 5; /*make selected panel 5 times bigger than other panels*/
+      /*==============================================================================================*/
+    }
+
+  </style>
+
+
+  <div class="panels">
+    <div class="panel panel1">
+      <p>Hey</p>
+      <p>Let's</p>
+      <p>Dance</p>
+    </div>
+    <div class="panel panel2">
+      <p>Give</p>
+      <p>Take</p>
+      <p>Receive</p>
+    </div>
+    <div class="panel panel3">
+      <p>Experience</p>
+      <p>It</p>
+      <p>Today</p>
+    </div>
+    <div class="panel panel4">
+      <p>Give</p>
+      <p>All</p>
+      <p>You can</p>
+    </div>
+    <div class="panel panel5">
+      <p>Life</p>
+      <p>In</p>
+      <p>Motion</p>
+    </div>
+  </div>
+
+  <script>
+    /*==============================================================================================*/
+    /*YOUR CODE*/
+    /*==============================================================================================*/
+    const panels = document.querySelectorAll('.panel');
+
+    // (Step 1) make selected panel 5 times bigger
+    function toggleOpen() {
+      // console.log("Hello");
+      this.classList.toggle('open');
+    }
+
+    // (Step 2) bring top and bottom items in a panel on-screen
+    function toggleActive(el) {
+      // console.log(el.propertyName); // check what transitioned in CSS (here it is: font-size & flex-grow)
+      if (el.propertyName.includes('flex')) { // in Safari el.propertyName returns 'flex', in other browsers 'flex-grow'
+        this.classList.toggle('open-active');
+      } 
+    }
+
+    panels.forEach((panel) => panel.addEventListener('click', toggleOpen));
+    panels.forEach((panel) => panel.addEventListener('transitionend', toggleActive));
+    /*==============================================================================================*/
+  </script>
+
+</body>
+</html>
