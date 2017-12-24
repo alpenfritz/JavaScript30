@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+  const pressed = [];
+  const secretCode = 'wesbos';
+
+  window.addEventListener('keyup', (event) => {
+    // console.log(event.key);
+    pressed.push(event.key);
+
+    // array.splice(start[, deleteCount[, item1[, item2[, ...]]]])
+    //    first argument: starting value (use negative to start from the end)
+    //    second argument: trimming (remove number of items)
+    //    further arguments: add elements
+
+    // var myFish = ['parrot', 'anemone', 'blue', 'trumpet', 'sturgeon'];
+    // var removed = myFish.splice(myFish.length - 3, 2);
+    //     myFish is ["parrot", "anemone", "sturgeon"] 
+    //     removed is ["blue", "trumpet"]
+
+    // below code throws away first letter after 6th letters
+    //    eg. 'wesiscool' -> 'iscool'
+    pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);
+    console.log(pressed);
+    if (pressed.join('').includes(secretCode)) {
+      console.log('YEAH!!');
+      cornify_add();
+    }
+  })
+</script>
+</body>
+</html>
