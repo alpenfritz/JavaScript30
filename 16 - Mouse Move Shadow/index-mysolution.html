@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color:black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color:black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+  const hero = document.querySelector('.hero');
+  const text = hero.querySelector('h1');
+  const walk = 500; // 100px
+
+  function shadow(event) {
+    // console.log(event);
+
+    // const width = hero.offsetWidth;
+    // const height = hero.offsetHeight;
+    // same as above using ES6
+    const { offsetWidth: width, offsetHeight: height } = hero;
+
+    let { offsetX: x, offsetY: y} = event;
+    // console.log(x, y);
+
+    // console.log(this, event.target);
+    if (this !== event.target) {
+      // when inside WOAH, then add fixed position of WOAH to x, y
+      x = x + event.target.offsetLeft;
+      y = y + event.target.offsetTop;
+    }
+    // console.log(x, y);
+
+    // figure out how much the shadow should go: 'walk'
+    const xWalk = Math.round((x / width * walk) - (walk / 2)); // eg. if walk is 100, then bound it to -50 and 50
+    const yWalk = Math.round((y / height * walk) - (walk / 2));
+    // console.log(xWalk, yWalk);
+
+    text.style.textShadow = `
+      ${xWalk}px ${yWalk}px 20px red,
+      ${xWalk * 0.3}px ${yWalk * 0.3}px 20px green
+    `;
+  }
+
+  hero.addEventListener('mousemove', shadow);
+</script>
+</body>
+</html>
